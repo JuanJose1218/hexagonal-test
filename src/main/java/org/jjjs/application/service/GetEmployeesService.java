@@ -1,0 +1,36 @@
+package org.jjjs.application.service;
+
+import org.jjjs.application.port.in.GetEmployeesResponse;
+import org.jjjs.application.port.in.GetEmployeesUseCase;
+import org.jjjs.application.port.out.EmployeeRepository;
+
+import java.util.List;
+
+
+public class GetEmployeesService implements GetEmployeesUseCase {
+
+    private final EmployeeRepository employeeRepository;
+
+    public GetEmployeesService(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
+    @Override
+    public List<GetEmployeesResponse> getAllEmployees() {
+        return employeeRepository.getAll().stream()
+                .map(GetEmployeesResponse::new
+                ).toList();
+
+    }
+
+    @Override
+    public GetEmployeesResponse getEmployeeById(Long id) {
+        var employee = employeeRepository.getById(id);
+        return new GetEmployeesResponse(employee);
+    }
+
+    @Override
+    public List<GetEmployeesResponse> getEmployeesByName() {
+        return List.of();
+    }
+}
