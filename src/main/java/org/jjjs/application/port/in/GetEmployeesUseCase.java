@@ -7,5 +7,5 @@ public interface GetEmployeesUseCase {
 
     GetEmployeesResponse getEmployeeById(Long id);
 
-    List<GetEmployeesResponse> getEmployeesByName();
+    List<GetEmployeesResponse> getEmployeesByName(String name);
 }

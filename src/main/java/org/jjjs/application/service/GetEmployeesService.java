@@ -30,7 +30,9 @@ public class GetEmployeesService implements GetEmployeesUseCase {
     }
 
     @Override
-    public List<GetEmployeesResponse> getEmployeesByName() {
-        return List.of();
+    public List<GetEmployeesResponse> getEmployeesByName(String name) {
+        return employeeRepository.getByName(name).stream()
+                .map(GetEmployeesResponse::new
+                ).toList();
     }
 }
