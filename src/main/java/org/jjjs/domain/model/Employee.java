@@ -4,6 +4,8 @@ package org.jjjs.domain.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.jjjs.application.port.command.CreateEmployeeCommand;
+import org.jjjs.domain.exceptions.BusinessRuleException;
 import org.jjjs.infrastructure.adapters.output.EmployeeEntity;
 
 import java.time.LocalDate;
@@ -14,7 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @EqualsAndHashCode
 public class Employee {
-
+    private static final int MINIMUM_AGE = 18;
     private Long id;
     private String firstName;
     private String secondName;
@@ -76,5 +78,19 @@ public class Employee {
         this.jobPosition = employeeEntity.getJobPosition();
         this.createdAt = employeeEntity.getCreatedAt();
         this.status = employeeEntity.getStatus();
+    }
+
+    public Employee(CreateEmployeeCommand createEmployeeCommand) {
+        if (createEmployeeCommand.age() < MINIMUM_AGE) {
+            throw new BusinessRuleException("The batch contains underage employees.");
+        }
+        this.firstName = createEmployeeCommand.firstName();
+        this.secondName = createEmployeeCommand.secondLastName();
+        this.lastName = createEmployeeCommand.lastName();
+        this.secondLastName = createEmployeeCommand.secondLastName();
+        this.age = createEmployeeCommand.age();
+        this.gender = createEmployeeCommand.gender();
+        this.birthDate = createEmployeeCommand.birthDate();
+        this.jobPosition = createEmployeeCommand.jobPosition();
     }
 }

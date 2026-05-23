@@ -17,9 +17,10 @@ public class GetEmployeesService implements GetEmployeesUseCase {
 
     @Override
     public List<GetEmployeesResponse> getAllEmployees() {
-        return employeeRepository.getAll().stream()
-                .map(GetEmployeesResponse::new
-                ).toList();
+        return employeeRepository.getAll()
+                .stream()
+                .map(GetEmployeesResponse::new)
+                .toList();
 
     }
 
@@ -31,8 +32,9 @@ public class GetEmployeesService implements GetEmployeesUseCase {
 
     @Override
     public List<GetEmployeesResponse> getEmployeesByName(String name) {
-        return employeeRepository.getByName(name).stream()
-                .map(GetEmployeesResponse::new
-                ).toList();
+        return employeeRepository.getByName(name)
+                .stream()
+                .map(GetEmployeesResponse::new)
+                .toList();
     }
 }

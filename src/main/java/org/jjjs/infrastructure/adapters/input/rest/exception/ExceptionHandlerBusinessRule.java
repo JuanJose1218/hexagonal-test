@@ -8,9 +8,6 @@ import org.jjjs.domain.exceptions.BusinessRuleException;
 import org.jjjs.infrastructure.adapters.input.rest.dto.ErrorResponse;
 
 
-import java.util.Map;
-
-
 @Provider
 @Slf4j
 public class ExceptionHandlerBusinessRule implements ExceptionMapper<BusinessRuleException> {

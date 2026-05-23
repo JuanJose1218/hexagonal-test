@@ -15,18 +15,21 @@ import org.jjjs.application.service.GetEmployeesService;
 public class QuarkusAppConfig {
 
     @Produces
+    @ApplicationScoped
     public CreateEmployeeUseCase createEmployeeUseCase(EmployeeRepository employeeRepository) {
         return new CreateEmployeeService(employeeRepository);
 
     }
 
     @Produces
+    @ApplicationScoped
     public GetEmployeesUseCase getEmployeesUseCase(EmployeeRepository employeeRepository) {
         return new GetEmployeesService(employeeRepository);
 
     }
 
     @Produces
+    @ApplicationScoped
     public DeleteEmployeesUseCase deleteEmployeesUseCase(EmployeeRepository employeeRepository) {
         return new DeleteEmployeeService(employeeRepository);
 
