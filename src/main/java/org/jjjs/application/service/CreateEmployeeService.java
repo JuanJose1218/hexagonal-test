@@ -1,18 +1,16 @@
 package org.jjjs.application.service;
 
+import org.jjjs.application.mapper.EmployeeCommandToDomain;
 import org.jjjs.application.port.command.CreateEmployeeCommand;
 import org.jjjs.application.port.in.CreateEmployeeResponse;
 import org.jjjs.application.port.in.CreateEmployeeUseCase;
 import org.jjjs.application.port.out.EmployeeRepository;
-import org.jjjs.domain.exceptions.BusinessRuleException;
-import org.jjjs.domain.model.Employee;
 
 import java.util.List;
 
 public class CreateEmployeeService implements CreateEmployeeUseCase {
 
     private final EmployeeRepository employeeRepository;
-    private final Integer MINIMUM_AGE = 18;
 
     public CreateEmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
@@ -22,7 +20,8 @@ public class CreateEmployeeService implements CreateEmployeeUseCase {
     public CreateEmployeeResponse create(List<CreateEmployeeCommand> employeeCommands) {
 
         var domainEmployees = employeeCommands.stream()
-                .map(Employee::new).toList();
+                .map(EmployeeCommandToDomain::toDomain
+                ).toList();
         employeeRepository.saveAll(domainEmployees);
 
 

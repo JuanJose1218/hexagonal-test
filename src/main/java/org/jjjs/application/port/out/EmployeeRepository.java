@@ -15,4 +15,6 @@ public interface EmployeeRepository {
     void deleteById(Long id);
 
     List<Employee> getByName(String name);
+
+    void updateById(Employee employee);
 }

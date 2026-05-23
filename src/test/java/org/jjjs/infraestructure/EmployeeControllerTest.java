@@ -2,7 +2,6 @@ package org.jjjs.infraestructure;
 
 import io.quarkus.test.InjectMock;
 import io.quarkus.test.junit.QuarkusTest;
-import io.quarkus.test.junit.mockito.InjectSpy;
 import io.restassured.http.ContentType;
 import jakarta.validation.ConstraintViolationException;
 import org.jjjs.application.port.in.CreateEmployeeResponse;

@@ -12,8 +12,11 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.jjjs.application.port.in.CreateEmployeeUseCase;
 import org.jjjs.application.port.in.DeleteEmployeesUseCase;
 import org.jjjs.application.port.in.GetEmployeesUseCase;
-import org.jjjs.infrastructure.adapters.input.rest.dto.EmployeeRequest;
-import org.jjjs.infrastructure.adapters.input.rest.mappers.EmployeeRequestToCommand;
+import org.jjjs.application.port.in.UpdateEmployeeUseCase;
+import org.jjjs.infrastructure.adapters.input.rest.dto.CreateEmployeeRequest;
+import org.jjjs.infrastructure.adapters.input.rest.dto.UpdateEmployeeRequest;
+import org.jjjs.infrastructure.adapters.input.rest.mappers.CreateEmployeeRequestToCommand;
+import org.jjjs.infrastructure.adapters.input.rest.mappers.UpdateEmployeeRequestToCommand;
 
 import java.util.List;
 
@@ -24,15 +27,18 @@ public class EmployeeController {
 
     private final CreateEmployeeUseCase createEmployeeUseCase;
     private final GetEmployeesUseCase getEmployeesUseCase;
-    private final EmployeeRequestToCommand employeeRequestToCommand;
     private final DeleteEmployeesUseCase deleteEmployeesUseCase;
+    private final UpdateEmployeeUseCase updateEmployeeUseCase;
+    private final CreateEmployeeRequestToCommand employeeRequestToCommand;
+    private final UpdateEmployeeRequestToCommand updateEmployeeRequestToCommand;
+
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @Operation(summary = "Registrar empleados", description = "Registra empleados en la base de datos")
     @APIResponse(responseCode = "201", description = "Empleado registrado con éxito")
-    public Response saveEmployee(@Valid List<EmployeeRequest> employeeRequest) {
+    public Response saveEmployee(@Valid List<CreateEmployeeRequest> employeeRequest) {
         var employeeCommand = employeeRequestToCommand.apply(employeeRequest);
         return Response.status(Response.Status.CREATED)
                 .entity(createEmployeeUseCase.create(employeeCommand))
@@ -95,7 +101,7 @@ public class EmployeeController {
     @Path("{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(summary = "Eliminar empleado por ID", description = "Elimina un empleado en el sistema usando su identificador único.")
-    @APIResponse(responseCode = "200", description = "Empleado eliminado con éxito")
+    @APIResponse(responseCode = "204", description = "Empleado eliminado con éxito")
     @APIResponse(responseCode = "404", description = "El ID proporcionado no pertenece a ningún empleado")
     public Response deleteEmployee(
             @Parameter(
@@ -105,7 +111,20 @@ public class EmployeeController {
             )
             @PathParam("id") Long id) {
         deleteEmployeesUseCase.deleteById(id);
-        return Response.ok()
+        return Response.noContent()
+                .build();
+    }
+
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("{id}")
+    @Operation(summary = "Actualiza empleado por ID", description = "Actualiza datos de  un empleado en el sistema usando su identificador único.")
+    @APIResponse(responseCode = "204", description = "Empleado actualizado con éxito")
+    @APIResponse(responseCode = "404", description = "El ID proporcionado no pertenece a ningún empleado")
+    public Response updateEmployee(@PathParam("id") Long id, UpdateEmployeeRequest updateEmployeeRequest) {
+        var updateEmployeeCommand = updateEmployeeRequestToCommand.apply(updateEmployeeRequest);
+        updateEmployeeUseCase.updateById(id, updateEmployeeCommand);
+        return Response.noContent()
                 .build();
     }
 

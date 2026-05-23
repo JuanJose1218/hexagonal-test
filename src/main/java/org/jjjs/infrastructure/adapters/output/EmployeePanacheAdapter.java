@@ -8,6 +8,8 @@ import org.hibernate.HibernateException;
 import org.jjjs.application.port.out.EmployeeRepository;
 import org.jjjs.domain.exceptions.EntityNotFoundException;
 import org.jjjs.domain.model.Employee;
+import org.jjjs.infrastructure.adapters.output.mapper.EmployeeDomainToEntity;
+import org.jjjs.infrastructure.adapters.output.mapper.EmployeeEntityToDomain;
 
 import java.util.List;
 
@@ -18,6 +20,8 @@ public class EmployeePanacheAdapter implements EmployeeRepository {
 
     private final EmployeePanacheRepository employeePanacheRepository;
 
+    private final EmployeeEntityToDomain employeeEntityToDomain;
+    private final EmployeeDomainToEntity employeeDomainToEntity;
 
     @Override
     @Transactional
@@ -50,7 +54,7 @@ public class EmployeePanacheAdapter implements EmployeeRepository {
     @Override
     public List<Employee> getAll() {
         return employeePanacheRepository.findAll()
-                .stream().map(Employee::new).toList();
+                .stream().map(employeeEntityToDomain).toList();
 
     }
 
@@ -58,10 +62,11 @@ public class EmployeePanacheAdapter implements EmployeeRepository {
     public Employee getById(Long id) {
         var employeeEntity = employeePanacheRepository.findByIdOptional(id)
                 .orElseThrow(() -> new EntityNotFoundException("Employee with ID " + id + " not found"));
-        return new Employee(employeeEntity);
+        return employeeEntityToDomain.apply(employeeEntity);
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         employeePanacheRepository.deleteById(id);
 
@@ -69,7 +74,15 @@ public class EmployeePanacheAdapter implements EmployeeRepository {
 
     @Override
     public List<Employee> getByName(String name) {
-        return employeePanacheRepository.findByName(name).stream().map(Employee::new).toList();
+        return employeePanacheRepository.findByName(name).stream().map(employeeEntityToDomain).toList();
+
+    }
+
+    @Override
+    @Transactional
+    public void updateById(Employee employee) {
+        var entity = employeeDomainToEntity.apply(employee);
+        employeePanacheRepository.getEntityManager().merge(entity);
 
     }
 }

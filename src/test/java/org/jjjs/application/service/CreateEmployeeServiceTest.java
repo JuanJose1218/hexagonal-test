@@ -33,11 +33,11 @@ public class CreateEmployeeServiceTest {
 
         var mockEmployeesCommand = List.of(
                 new CreateEmployeeCommand("Juan", "Carlos", "Pérez", "Gómez",
-                        30, "M", LocalDate.of(1996, 5, 20),
+                         "M", LocalDate.of(1996, 5, 20),
                         "Java Developer"),
                 new CreateEmployeeCommand(
                         "Pablo", "Carlos", "Sanchez", "Lopez",
-                        30, "M", LocalDate.of(1996, 5, 20),
+                         "M", LocalDate.of(1996, 5, 20),
                         "QA")
 
         );
@@ -57,11 +57,11 @@ public class CreateEmployeeServiceTest {
 
         var mockEmployeesCommand = List.of(
                 new CreateEmployeeCommand("Juan", "Carlos", "Pérez", "Gómez",
-                        15, "M", LocalDate.of(1996, 5, 20),
+                         "M", LocalDate.of(2025, 5, 20),
                         "Java Developer"),
                 new CreateEmployeeCommand(
                         "Pablo", "Carlos", "Sanchez", "Lopez",
-                        30, "M", LocalDate.of(1996, 5, 20),
+                         "M", LocalDate.of(1996, 5, 20),
                         "QA")
 
         );

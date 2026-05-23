@@ -16,7 +16,6 @@ public class CreateEmployeeCommandTest {
                 null,
                 "Lopez",
                 "Perez",
-                18,
                 "M",
                 LocalDate.of(1995, 6, 6),
                 "dev");

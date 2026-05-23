@@ -4,12 +4,13 @@ package org.jjjs.domain.model;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.jjjs.application.port.command.CreateEmployeeCommand;
+import org.apache.commons.lang3.StringUtils;
+import org.jjjs.application.port.command.UpdateEmployeeCommand;
 import org.jjjs.domain.exceptions.BusinessRuleException;
-import org.jjjs.infrastructure.adapters.output.EmployeeEntity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Period;
 
 @Getter
 
@@ -24,33 +25,49 @@ public class Employee {
     private String secondLastName;
     private Integer age;
     private String gender;
-
     private LocalDate birthDate;
-
     private String jobPosition;
-
     private LocalDateTime createdAt;
     private Boolean status;
 
-    public Employee(String firstName, String secondName, String lastName, String secondLastName, Integer age, String gender, LocalDate birthDate, String jobPosition) {
+    /*Constructor para craacion de empleado
+     * */
+    public Employee(String firstName,
+                    String secondName,
+                    String lastName,
+                    String secondLastName,
+                    String gender,
+                    LocalDate birthDate,
+                    String jobPosition) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.lastName = lastName;
         this.secondLastName = secondLastName;
-        this.age = age;
         this.gender = gender;
         this.birthDate = birthDate;
         this.jobPosition = jobPosition;
         this.createdAt = LocalDateTime.now();
         this.status = Boolean.TRUE;
+        var age = calculateAge(birthDate);
+        if (age < MINIMUM_AGE) {
+            throw new BusinessRuleException("The batch contains underage employees.");
+        }
+        this.age = age;
+
     }
 
+    /*Constructor para convertir de entity a domain
+     * */
     public Employee(Long id,
                     String firstName,
                     String secondName,
                     String lastName,
                     String secondLastName,
-                    Integer age, String gender, LocalDate birthDate, String jobPosition, LocalDateTime createdAt,
+                    Integer age,
+                    String gender,
+                    LocalDate birthDate,
+                    String jobPosition,
+                    LocalDateTime createdAt,
                     Boolean status) {
         this.id = id;
         this.firstName = firstName;
@@ -63,34 +80,63 @@ public class Employee {
         this.jobPosition = jobPosition;
         this.createdAt = createdAt;
         this.status = status;
+
     }
 
-    public Employee(EmployeeEntity employeeEntity) {
 
-        this.id = employeeEntity.getId();
-        this.firstName = employeeEntity.getFirstName();
-        this.secondName = employeeEntity.getSecondName();
-        this.lastName = employeeEntity.getLastName();
-        this.secondLastName = employeeEntity.getSecondLastName();
-        this.age = employeeEntity.getAge();
-        this.gender = employeeEntity.getGender();
-        this.birthDate = employeeEntity.getBirthDate();
-        this.jobPosition = employeeEntity.getJobPosition();
-        this.createdAt = employeeEntity.getCreatedAt();
-        this.status = employeeEntity.getStatus();
-    }
-
-    public Employee(CreateEmployeeCommand createEmployeeCommand) {
-        if (createEmployeeCommand.age() < MINIMUM_AGE) {
-            throw new BusinessRuleException("The batch contains underage employees.");
+    public void updateInformation(Long id,
+                    String firstName,
+                    String secondName,
+                    String lastName,
+                    String secondLastName,
+                    String gender,
+                    LocalDate birthDate,
+                    String jobPosition,
+                    Boolean isActive) {
+        validateAge(birthDate);
+        this.id = id;
+        if (StringUtils.isNotBlank(firstName)) {
+            this.firstName = firstName;
         }
-        this.firstName = createEmployeeCommand.firstName();
-        this.secondName = createEmployeeCommand.secondLastName();
-        this.lastName = createEmployeeCommand.lastName();
-        this.secondLastName = createEmployeeCommand.secondLastName();
-        this.age = createEmployeeCommand.age();
-        this.gender = createEmployeeCommand.gender();
-        this.birthDate = createEmployeeCommand.birthDate();
-        this.jobPosition = createEmployeeCommand.jobPosition();
+        if (StringUtils.isNotBlank(secondName)) {
+            this.secondName = secondName;
+        }
+        if (StringUtils.isNotBlank(lastName)) {
+            this.lastName = lastName;
+        }
+        if (StringUtils.isNotBlank(secondLastName)) {
+            this.secondLastName = secondLastName;
+        }
+        if (StringUtils.isNotBlank(gender)) {
+            this.gender = gender;
+        }
+
+        if (StringUtils.isNotBlank(jobPosition)) {
+            this.jobPosition = jobPosition;
+        }
+        if (isActive != null) {
+            this.status = isActive;
+        }
+
     }
+
+
+    public static int calculateAge(LocalDate birthDate) {
+        var today = LocalDate.now();
+        var period = Period.between(birthDate, today);
+        return period.getYears();
+    }
+
+    public void validateAge(LocalDate birthDate) {
+
+        if (birthDate != null) {
+            var age = calculateAge(birthDate);
+            if (age < MINIMUM_AGE) {
+                throw new BusinessRuleException("The employee age is invalid.");
+            } else {
+                this.age = age;
+            }
+        }
+    }
+
 }

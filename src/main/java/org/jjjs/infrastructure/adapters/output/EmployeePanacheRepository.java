@@ -11,7 +11,7 @@ public class EmployeePanacheRepository implements PanacheRepository<EmployeeEnti
 
     public List<EmployeeEntity> findByName(String name) {
 
-        return list("jobPosition LIKE ?1", "%" + name + "%");
+        return list("firstName LIKE ?1 or secondName LIKE ?1", "%" + name + "%");
     }
 
 

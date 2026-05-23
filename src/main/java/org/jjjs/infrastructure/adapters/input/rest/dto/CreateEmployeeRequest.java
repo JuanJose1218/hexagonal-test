@@ -2,6 +2,7 @@ package org.jjjs.infrastructure.adapters.input.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Schema(description = "Modelo de datos requerido para registrar un nuevo empleado")
-public class EmployeeRequest {
+public class CreateEmployeeRequest {
     @Schema(description = "Primer nombre del empleado", example = "Juan", required = true)
     @NotBlank(message = "name was not empty")
     private String firstName;
@@ -22,11 +23,11 @@ public class EmployeeRequest {
     @NotBlank(message = "lastName was not empty")
     private String lastName;
     private String secondLastName;
-    private Integer age;
     @Schema(description = "Genero del empleado", example = "M", required = true)
     @NotBlank(message = "gender was not empty")
     private String gender;
     @JsonFormat(pattern = "dd-MM-yyyy")
+    @NotNull(message = "The birth date cannot be null")
     private LocalDate birthDate;
     @NotBlank(message = "jobPosition was not empty")
     @Schema(description = "Puesto del empleado", example = "Dev", required = true)
