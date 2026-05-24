@@ -3,6 +3,7 @@ package org.jjjs.application.service;
 import org.jjjs.application.port.command.UpdateEmployeeCommand;
 import org.jjjs.application.port.in.UpdateEmployeeUseCase;
 import org.jjjs.application.port.out.EmployeeRepository;
+import org.jjjs.domain.exceptions.EntityNotFoundException;
 import org.jjjs.domain.model.Employee;
 
 public class UpdateEmployeeService implements UpdateEmployeeUseCase {
@@ -15,7 +16,8 @@ public class UpdateEmployeeService implements UpdateEmployeeUseCase {
 
     @Override
     public void updateById(Long id, UpdateEmployeeCommand updateEmployeeRequest) {
-        var employee = employeeRepository.getById(id);
+        var employee = employeeRepository.getById(id).orElseThrow(() -> new EntityNotFoundException("Employee with ID " + id + " not found"));
+
         employee.updateInformation(
                 id,
                 updateEmployeeRequest.firstName(),

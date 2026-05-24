@@ -1,4 +1,4 @@
-package org.jjjs.infrastructure.adapters.input.rest.dto;
+package org.jjjs.infrastructure.adapters.in.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;

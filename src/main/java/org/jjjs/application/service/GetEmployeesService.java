@@ -3,6 +3,7 @@ package org.jjjs.application.service;
 import org.jjjs.application.port.in.GetEmployeesResponse;
 import org.jjjs.application.port.in.GetEmployeesUseCase;
 import org.jjjs.application.port.out.EmployeeRepository;
+import org.jjjs.domain.exceptions.EntityNotFoundException;
 
 import java.util.List;
 
@@ -26,7 +27,8 @@ public class GetEmployeesService implements GetEmployeesUseCase {
 
     @Override
     public GetEmployeesResponse getEmployeeById(Long id) {
-        var employee = employeeRepository.getById(id);
+        var employee = employeeRepository.getById(id).orElseThrow(() -> new EntityNotFoundException("Employee with ID " + id + " not found"));
+
         return new GetEmployeesResponse(employee);
     }
 

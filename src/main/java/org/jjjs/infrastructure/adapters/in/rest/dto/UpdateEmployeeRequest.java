@@ -1,4 +1,4 @@
-package org.jjjs.infrastructure.adapters.input.rest.dto;
+package org.jjjs.infrastructure.adapters.in.rest.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
@@ -26,10 +26,8 @@ public class UpdateEmployeeRequest {
     @JsonFormat(pattern = "dd-MM-yyyy")
     @Schema(description = "Fecha de nacimiento del empleado", example = "20-10-2026")
     private LocalDate birthDate;
-
     @Schema(description = "Puesto del empleado", example = "Dev")
     private String jobPosition;
-
     @Schema(description = "Estatus del empleado", example = "true")
     private Boolean isActive;
 }

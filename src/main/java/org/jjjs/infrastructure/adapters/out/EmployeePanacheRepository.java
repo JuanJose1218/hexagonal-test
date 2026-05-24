@@ -1,4 +1,4 @@
-package org.jjjs.infrastructure.adapters.output;
+package org.jjjs.infrastructure.adapters.out;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;

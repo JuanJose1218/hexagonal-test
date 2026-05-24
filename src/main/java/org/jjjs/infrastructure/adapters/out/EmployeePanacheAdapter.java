@@ -1,4 +1,4 @@
-package org.jjjs.infrastructure.adapters.output;
+package org.jjjs.infrastructure.adapters.out;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
@@ -8,10 +8,11 @@ import org.hibernate.HibernateException;
 import org.jjjs.application.port.out.EmployeeRepository;
 import org.jjjs.domain.exceptions.EntityNotFoundException;
 import org.jjjs.domain.model.Employee;
-import org.jjjs.infrastructure.adapters.output.mapper.EmployeeDomainToEntity;
-import org.jjjs.infrastructure.adapters.output.mapper.EmployeeEntityToDomain;
+import org.jjjs.infrastructure.adapters.out.mapper.EmployeeDomainToEntity;
+import org.jjjs.infrastructure.adapters.out.mapper.EmployeeEntityToDomain;
 
 import java.util.List;
+import java.util.Optional;
 
 @ApplicationScoped
 @RequiredArgsConstructor
@@ -19,7 +20,6 @@ import java.util.List;
 public class EmployeePanacheAdapter implements EmployeeRepository {
 
     private final EmployeePanacheRepository employeePanacheRepository;
-
     private final EmployeeEntityToDomain employeeEntityToDomain;
     private final EmployeeDomainToEntity employeeDomainToEntity;
 
@@ -46,6 +46,7 @@ public class EmployeePanacheAdapter implements EmployeeRepository {
         } catch (HibernateException e) {
             log.info("no se pudo guardar los empleados");
 
+
         }
 
 
@@ -59,10 +60,10 @@ public class EmployeePanacheAdapter implements EmployeeRepository {
     }
 
     @Override
-    public Employee getById(Long id) {
-        var employeeEntity = employeePanacheRepository.findByIdOptional(id)
-                .orElseThrow(() -> new EntityNotFoundException("Employee with ID " + id + " not found"));
-        return employeeEntityToDomain.apply(employeeEntity);
+    public Optional<Employee> getById(Long id) {
+        return employeePanacheRepository.findByIdOptional(id).map(employeeEntityToDomain);
+
+
     }
 
     @Override

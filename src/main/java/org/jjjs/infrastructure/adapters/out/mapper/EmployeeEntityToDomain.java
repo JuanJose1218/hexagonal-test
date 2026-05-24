@@ -1,8 +1,8 @@
-package org.jjjs.infrastructure.adapters.output.mapper;
+package org.jjjs.infrastructure.adapters.out.mapper;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import org.jjjs.domain.model.Employee;
-import org.jjjs.infrastructure.adapters.output.EmployeeEntity;
+import org.jjjs.infrastructure.adapters.out.EmployeeEntity;
 
 import java.util.function.Function;
 

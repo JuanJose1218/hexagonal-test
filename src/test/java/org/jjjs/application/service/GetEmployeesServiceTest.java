@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -41,7 +42,7 @@ public class GetEmployeesServiceTest {
                 "Java Developer", LocalDateTime.now(), true
         );
 
-        when(employeeRepository.getById(employeeId)).thenReturn(mockEmployee);
+        when(employeeRepository.getById(employeeId)).thenReturn(Optional.of(mockEmployee));
 
 
         var result = getEmployeesService.getEmployeeById(employeeId);

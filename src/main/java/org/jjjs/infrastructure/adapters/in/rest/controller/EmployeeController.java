@@ -1,4 +1,4 @@
-package org.jjjs.infrastructure.adapters.input.rest.controller;
+package org.jjjs.infrastructure.adapters.in.rest.controller;
 
 
 import jakarta.validation.Valid;
@@ -13,10 +13,10 @@ import org.jjjs.application.port.in.CreateEmployeeUseCase;
 import org.jjjs.application.port.in.DeleteEmployeesUseCase;
 import org.jjjs.application.port.in.GetEmployeesUseCase;
 import org.jjjs.application.port.in.UpdateEmployeeUseCase;
-import org.jjjs.infrastructure.adapters.input.rest.dto.CreateEmployeeRequest;
-import org.jjjs.infrastructure.adapters.input.rest.dto.UpdateEmployeeRequest;
-import org.jjjs.infrastructure.adapters.input.rest.mappers.CreateEmployeeRequestToCommand;
-import org.jjjs.infrastructure.adapters.input.rest.mappers.UpdateEmployeeRequestToCommand;
+import org.jjjs.infrastructure.adapters.in.rest.dto.CreateEmployeeRequest;
+import org.jjjs.infrastructure.adapters.in.rest.dto.UpdateEmployeeRequest;
+import org.jjjs.infrastructure.adapters.in.rest.mappers.CreateEmployeeRequestToCommand;
+import org.jjjs.infrastructure.adapters.in.rest.mappers.UpdateEmployeeRequestToCommand;
 
 import java.util.List;
 

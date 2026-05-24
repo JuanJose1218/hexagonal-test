@@ -1,8 +1,8 @@
-package org.jjjs.infrastructure.adapters.input.rest.mappers;
+package org.jjjs.infrastructure.adapters.in.rest.mappers;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import org.jjjs.application.port.command.CreateEmployeeCommand;
-import org.jjjs.infrastructure.adapters.input.rest.dto.CreateEmployeeRequest;
+import org.jjjs.infrastructure.adapters.in.rest.dto.CreateEmployeeRequest;
 
 import java.util.List;
 import java.util.function.Function;

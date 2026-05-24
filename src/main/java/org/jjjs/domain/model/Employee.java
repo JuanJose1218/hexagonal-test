@@ -85,14 +85,18 @@ public class Employee {
 
 
     public void updateInformation(Long id,
-                    String firstName,
-                    String secondName,
-                    String lastName,
-                    String secondLastName,
-                    String gender,
-                    LocalDate birthDate,
-                    String jobPosition,
-                    Boolean isActive) {
+                                  String firstName,
+                                  String secondName,
+                                  String lastName,
+                                  String secondLastName,
+                                  String gender,
+                                  LocalDate birthDate,
+                                  String jobPosition,
+                                  Boolean isActive) {
+        if (firstName == null && secondName == null && lastName == null && secondLastName == null && gender == null && birthDate == null && jobPosition == null && isActive == null) {
+            throw new BusinessRuleException("Employee cannot be null");
+
+        }
         validateAge(birthDate);
         this.id = id;
         if (StringUtils.isNotBlank(firstName)) {

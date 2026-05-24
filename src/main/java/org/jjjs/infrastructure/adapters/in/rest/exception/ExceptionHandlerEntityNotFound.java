@@ -1,11 +1,11 @@
-package org.jjjs.infrastructure.adapters.input.rest.exception;
+package org.jjjs.infrastructure.adapters.in.rest.exception;
 
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
 import lombok.extern.slf4j.Slf4j;
 import org.jjjs.domain.exceptions.EntityNotFoundException;
-import org.jjjs.infrastructure.adapters.input.rest.dto.ErrorResponse;
+import org.jjjs.infrastructure.adapters.in.rest.dto.ErrorResponse;
 
 
 @Provider

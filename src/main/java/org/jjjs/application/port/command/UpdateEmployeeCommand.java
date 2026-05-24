@@ -11,4 +11,6 @@ public record UpdateEmployeeCommand(String firstName,
                                     LocalDate birthDate,
                                     String jobPosition,
                                     Boolean isActive) {
+
+
 }

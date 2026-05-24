@@ -1,8 +1,8 @@
-package org.jjjs.infrastructure.adapters.input.rest.mappers;
+package org.jjjs.infrastructure.adapters.in.rest.mappers;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import org.jjjs.application.port.command.UpdateEmployeeCommand;
-import org.jjjs.infrastructure.adapters.input.rest.dto.UpdateEmployeeRequest;
+import org.jjjs.infrastructure.adapters.in.rest.dto.UpdateEmployeeRequest;
 
 import java.util.function.Function;
 

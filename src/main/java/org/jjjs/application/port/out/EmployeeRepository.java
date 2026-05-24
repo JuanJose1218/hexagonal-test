@@ -3,6 +3,7 @@ package org.jjjs.application.port.out;
 import org.jjjs.domain.model.Employee;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface EmployeeRepository {
 
@@ -10,7 +11,7 @@ public interface EmployeeRepository {
 
     List<Employee> getAll();
 
-    Employee getById(Long id);
+    Optional<Employee> getById(Long id);
 
     void deleteById(Long id);
 

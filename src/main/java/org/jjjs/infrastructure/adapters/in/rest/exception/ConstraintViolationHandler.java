@@ -1,4 +1,4 @@
-package org.jjjs.infrastructure.adapters.input.rest.exception;
+package org.jjjs.infrastructure.adapters.in.rest.exception;
 
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.core.Response;

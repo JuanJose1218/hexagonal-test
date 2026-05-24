@@ -1,4 +1,4 @@
-package org.jjjs.infrastructure.adapters.output;
+package org.jjjs.infrastructure.adapters.out;
 
 
 import jakarta.persistence.*;
