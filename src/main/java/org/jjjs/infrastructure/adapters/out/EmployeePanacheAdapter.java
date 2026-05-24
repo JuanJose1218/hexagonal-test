@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.HibernateException;
 import org.jjjs.application.port.out.EmployeeRepository;
-import org.jjjs.domain.exceptions.EntityNotFoundException;
 import org.jjjs.domain.model.Employee;
 import org.jjjs.infrastructure.adapters.out.mapper.EmployeeDomainToEntity;
 import org.jjjs.infrastructure.adapters.out.mapper.EmployeeEntityToDomain;

@@ -5,7 +5,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
-import org.jjjs.application.port.command.UpdateEmployeeCommand;
 import org.jjjs.domain.exceptions.BusinessRuleException;
 
 import java.time.LocalDate;

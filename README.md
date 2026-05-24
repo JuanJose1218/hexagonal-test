@@ -1,79 +1,59 @@
-# hexagonal-test
+# Hexagonal Test API
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+Proyecto backend desarrollado con **Quarkus** y **Java 21**, estructurado bajo los principios de **Arquitectura Hexagonal** (Ports and Adapters) y Clean Code.
 
-If you want to learn more about Quarkus, please visit its website: <https://quarkus.io/>.
+## Requisitos Previos
 
-## Running the application in dev mode
+* Java 21 (GraalVM o OpenJDK)
+* Maven 3.9+ o el Maven Wrapper incluido (`./mvnw`)
+* Docker instalado y en ejecución
 
-You can run your application in dev mode that enables live coding using:
+---
+
+##  Desarrollo Local
+
 
 ```shell script
 ./mvnw quarkus:dev
 ```
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at <http://localhost:8080/q/dev/>.
-
-## Packaging and running the application
-
-The application can be packaged using:
+## Visualizar swagger-ui en modo dev
+En modo desarrollo, puedes interactuar con los endpoints directamente desde tu navegador en:
 
 ```shell script
-./mvnw package
+http://localhost:8080/q/swagger-ui/
 ```
 
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
-
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
-
-If you want to build an _über-jar_, execute the following command:
+## Correr aplicacion pruebas unitarias
 
 ```shell script
-./mvnw package -Dquarkus.package.jar.type=uber-jar
+./mvnw clean test
+```
+## Despliegue con Docker
+Sigue este orden de comandos para empaquetar la aplicación, preparar el entorno de red local y levantar tanto la base de datos como el contenedor de Quarkus.
+
+1. Compilar y empaquetar el proyecto
+```shell script
+./mvnw clean package
 ```
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+2. Construir la imagen Docker (JVM)
+```shell script
+docker build -f src/main/docker/Dockerfile.jvm -t quarkus/hexagonal-test-jvm .
+```
 
-## Creating a native executable
-
-You can create a native executable using:
+3. Crear la red local de Docker
 
 ```shell script
-./mvnw package -Dnative
+docker network create mi-red-local
 ```
 
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+4. Ejecutar el contenedor de MySQL
 
 ```shell script
-./mvnw package -Dnative -Dquarkus.native.container-build=true
+docker run -d  --name contenedor-mysql --network mi-red-local -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=demo_db -p 3306:3306  mysql:8.0
 ```
-
-You can then execute your native executable with: `./target/hexagonal-test-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
-
-## Related Guides
-
-- REST ([guide](https://quarkus.io/guides/rest)): Build RESTful web services and APIs using Jakarta REST (formerly JAX-RS)
-- REST Jackson ([guide](https://quarkus.io/guides/rest#json-serialisation)): Jackson serialization support for Quarkus REST. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it
-- Hibernate ORM with Panache ([guide](https://quarkus.io/guides/hibernate-orm-panache)): Simplified JPA/Hibernate data access layer with active record and repository patterns
-- JDBC Driver - PostgreSQL ([guide](https://quarkus.io/guides/datasource)): Connect to the PostgreSQL database via JDBC
-
-## Provided Code
-
-### Hibernate ORM
-
-Create your first JPA entity
-
-[Related guide section...](https://quarkus.io/guides/hibernate-orm)
-
-
-[Related Hibernate with Panache section...](https://quarkus.io/guides/hibernate-orm-panache)
-
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+5. Ejecutar la aplicación Quarkus
+```shell script
+docker run -i --rm --name app-quarkus --network mi-red-local -p 8080:8080 -e QUARKUS_DATASOURCE_JDBC_URL=jdbc:mysql://contenedor-mysql:3306/demo_db -e QUARKUS_DATASOURCE_USERNAME=root -e QUARKUS_DATASOURCE_PASSWORD=root  quarkus/hexagonal-test-jvm:latest
+```
